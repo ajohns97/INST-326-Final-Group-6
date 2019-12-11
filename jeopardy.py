@@ -62,6 +62,7 @@ def main():
     questions_answered=0
 
     print('Welcome to Jeopardy: Please pick different questions each time (25 different questions)')
+    print('Question 1=100, Question 2=200, Question 3=300, Question 4=400, Question 5=500)
     while questions_answered<total_questions:
 
 
@@ -284,7 +285,7 @@ def main():
                     total_points=total_points+500
                     print(total_points)
     print('Thanks for playing')
-    print(total_points)
+    print('Your total points: '+ total_points)
 
 
 
