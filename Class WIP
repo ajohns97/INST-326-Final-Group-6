@@ -85,17 +85,18 @@ class Game:
                 break
             self.df = self.df.drop(self.Rho.index)
             self.questions_answered += 1
+        return self.total_points, self.total_questions, self.questions_answered
 
 
     
     
 def main():
     Jeopardy = Game('finalQandA.csv')
-    Jeopardy.create_jeopardy()
+    total_points, total_questions, questions_answered = Jeopardy.create_jeopardy()
     print("Thanks for playing!")
-    print("Total points:", self.total_points)
-    print("Total questions:", self.total_questions)
-    print("Questions answered:", self.questions_answered)
+    print("Total points:", total_points)
+    print("Total questions:", total_questions)
+    print("Questions answered:", questions_answered)
     
 if __name__ == '__main__':
     main()
