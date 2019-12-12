@@ -5,7 +5,7 @@ print("Welcome to Jeopardy!")
 total_points = 0
 total_questions = 25
 questions_answered = 0
-percentage_score
+
 
 
 randomizer = random.randint(1,25)
@@ -85,7 +85,7 @@ print("Thanks for playing!")
 print("Total points:", total_points)
 print("Total questions:", total_questions)
 print("Questions answered:", questions_answered)
-print("Percentage score:", percentage_score)
+
     
     
 def main():
