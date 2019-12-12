@@ -1,0 +1,106 @@
+import csv
+import random
+import pandas as pd
+
+class Game:
+    def __init__(self, file):
+        self.df = pd.read_csv(file)
+        print("Welcome to Jeopardy!")
+        self.total_points = 0
+        self.total_questions = 25
+        self.questions_answered = 0
+        self.dailydouble = (random.randint(1,25) - 1)
+
+    def get_category(self):
+        self.user_input = input("Choose a category!""\n")
+        if self.user_input.lower() == 'quit':
+            return False
+        else:
+            self.user_input = self.user_input.title()
+        self.category = self.df[self.df['Category'] == self.user_input]
+        self.values = self.category['Points']
+        print(self.values.to_string(index=False),"\n")
+    
+        
+        
+        
+    def get_point_value(self):
+        self.user_pts_choice = input("Choose a point value!""\n")
+        if self.user_pts_choice.lower() == 'quit':
+            return False
+        else:
+            self.user_pts_choice = int(self.user_pts_choice)
+        return self.user_pts_choice
+    
+    def daily_double(self):
+        if self.questions_answered == self.dailydouble:
+            print("DAILY DOUBLE!")
+            self.point_multiplier = 2
+        else:
+            self.point_multiplier = 1
+        return self.point_multiplier
+    
+    def rho(self, multiplier, user_pts_choice):
+        self.Rho = self.category[self.values == user_pts_choice]
+        self.question = self.Rho['Question']
+        self.question = self.question.to_string(index=False)
+        self.answer = self.Rho['Answer']
+        self.answer = self.answer.to_string(index=False)
+        print(self.Rho['Points'])
+        #self.points = int(self.rho['Points']) * multiplier
+    
+    #print (answer)
+    def check_answer(self):
+        print(self.question, "\n")
+        self.user_answer = input("What is your answer?""\n")
+        if self.user_answer.lower() == 'quit':
+            return False
+        elif self.user_answer == self.answer:
+            print("That's correct! You've earned " + str(self.points) + " points!", "\n")
+            self.total_points = self.total_points + (self.points)
+        else:
+            print("Sorry! That's incorrect. The correct answer is " + self.answer + "\n")
+    
+    def create_jeopardy(self):
+        while self.df.empty == False:
+            print("To leave game, type quit.")
+            self.category_list = []
+            for category in self.df['Category']:
+                if category not in self.category_list:
+                    self.category_list.append(category)
+                else:
+                    pass
+            for i in self.category_list:
+                print(i)
+            status = Game.get_category(self)
+            if status == False:
+                break
+            points = Game.get_point_value(self)
+            if points == False:
+                break
+            double = Game.daily_double(self)
+            Game.rho(self, double, points)
+            answ = Game.check_answer(self)
+            if answ == False:
+                break
+            self.df = self.df.drop(self.Rho.index)
+            self.questions_answered += 1
+
+
+    
+    
+def main():
+    Jeopardy = Game('finalQandA.csv')
+    Jeopardy.create_jeopardy()
+    print("Thanks for playing!")
+    print("Total points:", self.total_points)
+    print("Total questions:", self.total_questions)
+    print("Questions answered:", self.questions_answered)
+    
+if __name__ == '__main__':
+    main()
+    
+    
+
+
+
