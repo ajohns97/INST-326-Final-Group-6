@@ -9,7 +9,9 @@ questions_answered = 0
 
 
 randomizer = random.randint(1,25)
-dailydouble = randomizer - 1        
+dailydouble = randomizer - 1
+
+        
 
 while df.empty == False:
     
@@ -28,7 +30,7 @@ while df.empty == False:
     
    
     user_input = input("Choose a category!""\n")
-    if user_input == 'quit':
+    if user_input.lower() == 'quit':
         break
         
     else:
@@ -42,7 +44,10 @@ while df.empty == False:
     print(values.to_string(index=False),"\n")
 
     userchoice = input("Choose a point value!""\n")
-    userchoice = int(userchoice)
+    if userchoice.lower() == 'quit':
+        break
+    else:
+        userchoice = int(userchoice)
     
     if questions_answered == dailydouble:
         print("DAILY DOUBLE!")
@@ -65,11 +70,11 @@ while df.empty == False:
     print(question, "\n")
 
     user_answer = input("What is your answer?""\n")
-    if user_answer == answer:
+    if user_answer.lower() == 'quit':
+        break
+    elif user_answer == answer:
         print("That's correct! You've earned " + str(points) + " points!", "\n")
         total_points = total_points + (points)
-        
-
     else:
         print("Sorry! That's incorrect. The correct answer is " + answer + "\n")
         
@@ -95,4 +100,6 @@ if __name__ == '__main__':
     main()
     
     
+
+
 
