@@ -1,6 +1,6 @@
 import csv
 
-class Categories():
+class Categories(): # Creating a categories class
   def __init__ (self, sports, politics, popculture, tech, food):
       self.sports = sports
       self.politics = politics
@@ -8,7 +8,7 @@ class Categories():
       self.tech = tech
       self.food = food
 
-class Answers():
+class Answers(): # Creating an answers class
   def __init__ (self, sports, politics, popculture, tech, food):
       self.sports = sports
       self.politics = politics
@@ -24,7 +24,7 @@ def get_categories(file):
     tech = []
     food = []
     
-    #oppen file
+    #open file 
     with open(file, encoding = "UTF-8") as handle:
         reader = csv.DictReader(handle, delimiter = ',')
         #iterate over file
