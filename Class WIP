@@ -42,11 +42,13 @@ class Game:
     
     def rho(self, multiplier, user_pts_choice):
         self.Rho = self.category[self.values == user_pts_choice]
+        self.points = self.Rho['Points']
+        self.points = self.points.to_string(index=False)
         self.question = self.Rho['Question']
         self.question = self.question.to_string(index=False)
         self.answer = self.Rho['Answer']
         self.answer = self.answer.to_string(index=False)
-        print(self.Rho['Points'])
+        print(self.points)
         #self.points = int(self.rho['Points']) * multiplier
     
     #print (answer)
@@ -102,6 +104,6 @@ if __name__ == '__main__':
     main()
     
     
-
+    
 
 
