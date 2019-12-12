@@ -1,4 +1,4 @@
-df = pd.read_csv('sports_modified.csv')
+df = pd.read_csv('FinalQandA.csv')
 
 print("Welcome to Jeopardy!")
 
