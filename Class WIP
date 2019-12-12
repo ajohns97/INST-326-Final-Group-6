@@ -42,13 +42,12 @@ class Game:
     
     def rho(self, multiplier, user_pts_choice):
         self.Rho = self.category[self.values == user_pts_choice]
-        self.points = self.Rho['Points']
-        self.points = self.points.to_string(index=False)
+        self.points = self.Rho['Points'] * self.point_multiplier
+        self.displaypoints = self.points.to_string(index=False)
         self.question = self.Rho['Question']
         self.question = self.question.to_string(index=False)
         self.answer = self.Rho['Answer']
         self.answer = self.answer.to_string(index=False)
-        print(self.points)
         #self.points = int(self.rho['Points']) * multiplier
     
     #print (answer)
@@ -58,10 +57,10 @@ class Game:
         if self.user_answer.lower() == 'quit':
             return False
         elif self.user_answer == self.answer:
-            print("That's correct! You've earned " + str(self.points) + " points!", "\n")
-            self.total_points = self.total_points + (self.points)
+            print("That's correct! You've earned " + str(self.displaypoints) + " points!", "\n")
+            self.total_points = int(self.total_points) + int(self.points)
         else:
-            print("Sorry! That's incorrect. The correct answer is " + self.answer + "\n")
+            print("Sorry! That's incorrect. The correct answer is " + self.answer +'.' "\n")
     
     def create_jeopardy(self):
         while self.df.empty == False:
@@ -87,7 +86,9 @@ class Game:
                 break
             self.df = self.df.drop(self.Rho.index)
             self.questions_answered += 1
+            print ('You have', self.total_points, 'points.''\n')
         return self.total_points, self.total_questions, self.questions_answered
+    
 
 
     
@@ -95,6 +96,7 @@ class Game:
 def main():
     Jeopardy = Game('finalQandA.csv')
     total_points, total_questions, questions_answered = Jeopardy.create_jeopardy()
+    
     print("Thanks for playing!")
     print("Total points:", total_points)
     print("Total questions:", total_questions)
@@ -104,6 +106,4 @@ if __name__ == '__main__':
     main()
     
     
-    
-
 
