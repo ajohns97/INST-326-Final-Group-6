@@ -9,11 +9,7 @@ questions_answered = 0
 
 
 randomizer = random.randint(1,25)
-dailydouble = randomizer - 1
-
-
-questions_answered == dailydouble
-        
+dailydouble = randomizer - 1        
 
 while df.empty == False:
     
