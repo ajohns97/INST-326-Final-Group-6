@@ -490,6 +490,7 @@ def main():
 
     print('Welcome to Jeopardy: Please pick different questions each time (25 different questions)')
     print('Question 1=100, Question 2=200, Question 3=300, Question 4=400, Question 5=500')
+    print('Enter "Quit" to end the game.')
     points, questions_answered = jeopardy()
     print('Thanks for playing!')
     avg = get_score(points, questions_answered)
