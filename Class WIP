@@ -1,0 +1,147 @@
+#Group 6: Arion Askins, Rahul Bajaj, Jonathan Chen, Andrew Johnson, Dom Miller
+#Date: 2019-12-12
+#Assignment: Final Project
+
+#import statements
+import csv
+import random
+import pandas as pd
+import os.path 
+
+#test to make sure file is being accessed
+def test_file(file):
+    assert os.path.exists(file) == True
+
+#define game class, initiate variables for questions, scores, and the dailydouble question
+class Game:
+    def __init__(self, file):
+        self.df = pd.read_csv(file)
+        print("Welcome to Jeopardy!")
+        self.total_points = 0
+        self.total_questions = 25
+        self.questions_answered = 0
+        
+        #get random value for daily double question
+        self.dailydouble = (random.randint(1,25) - 1)
+    
+    
+    #define function to get remaining categories in csv and use user input to choose one
+    #include way for user to quit game
+    def get_category(self):
+        self.user_input = input("\n""Choose a category!""\n")
+        if self.user_input.lower() == 'quit':
+            return False
+        else:
+            self.user_input = self.user_input.title()
+        self.category = self.df[self.df['Category'] == self.user_input]
+        self.values = self.category['Points']
+        print(self.values.to_string(index=False),"\n")
+    
+        
+        
+        
+    #define function to get remaining questions in category and use user input to choose one
+    #include way for user to quit game
+    def get_point_value(self):
+        self.user_pts_choice = input("Choose a point value!""\n")
+        if self.user_pts_choice.lower() == 'quit':
+            return False
+        else:
+            self.user_pts_choice = int(self.user_pts_choice)
+        return self.user_pts_choice
+    
+    #define function for daily double so that a point multiplier is applied to the question only if the daily double is active
+    def daily_double(self):
+        if self.questions_answered == self.dailydouble:
+            print("DAILY DOUBLE!")
+            self.point_multiplier = 2
+        else:
+            self.point_multiplier = 1
+        return self.point_multiplier
+    
+    #define function to get question and answer for corresponding point value
+    #apply multiplier to points
+    #use to_string method to remove indexes when printing
+    def rho(self, multiplier, user_pts_choice):
+        self.Rho = self.category[self.values == user_pts_choice]
+        self.points = self.Rho['Points'] * self.point_multiplier
+        self.displaypoints = self.points.to_string(index=False)
+        self.question = self.Rho['Question']
+        self.question = self.question.to_string(index=False)
+        self.answer = self.Rho['Answer']
+        self.answer = self.answer.to_string(index=False)
+        
+    
+    #define function to get user input for answer and check answer
+    #print corresponding message depending on if answer is correct or incorrect
+    #if correct, add points to score, if incorrect, display correct answer
+    
+    def check_answer(self):
+        print(self.question, "\n")
+        self.user_answer = input("What is your answer?""\n")
+        if self.user_answer.lower() == 'quit':
+            return False
+        elif self.user_answer == self.answer:
+            print("That's correct! You've earned " + str(self.displaypoints) + " points!", "\n")
+            self.total_points = int(self.total_points) + int(self.points)
+        else:
+            print("Sorry! That's incorrect. The correct answer is " + self.answer +'.' "\n")
+    
+    
+    #define function for the jeopardy game
+    #use while loop to repeat game
+    #tell user how to quit the game
+    #create list of unique categories from the dataframe to show user category options
+    
+    def create_jeopardy(self):
+        while self.df.empty == False:
+            print("To leave game, type quit.""\n")
+            self.category_list = []
+            for category in self.df['Category']:
+                if category not in self.category_list:
+                    self.category_list.append(category)
+                else:
+                    pass
+            for i in self.category_list:
+                print(i)
+            
+            #use defined functions to progress through game
+            status = Game.get_category(self)
+            if status == False:
+                break
+            points = Game.get_point_value(self)
+            if points == False:
+                break
+            double = Game.daily_double(self)
+            Game.rho(self, double, points)
+            answ = Game.check_answer(self)
+            if answ == False:
+                break
+            
+            #after question is answered, drop the corresponding row from dataframe, preventing questions from being answered twice and causing self.category_list to show less categories if there are no more questions left for a category
+            self.df = self.df.drop(self.Rho.index)
+            
+            #questions answered tally, current score
+            self.questions_answered += 1
+            print ('You have', self.total_points, 'points.''\n')
+        return self.total_points, self.total_questions, self.questions_answered
+    
+
+
+    
+    
+def main():
+    Jeopardy = Game('finalQandA.csv')
+    total_points, total_questions, questions_answered = Jeopardy.create_jeopardy()
+    
+    #end of game statements
+    print("\n""Thanks for playing!")
+    print("Total points:", total_points)
+    print("Total questions:", total_questions)
+    print("Questions answered:", questions_answered)
+    
+if __name__ == '__main__':
+    test_file('finalQandA.csv')
+    main()
+    
+    
