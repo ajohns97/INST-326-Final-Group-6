@@ -16,7 +16,10 @@ def test_file(file):
 class Game:
     def __init__(self, file):
         self.df = pd.read_csv(file)
+        
+        #stop pandas from truncating strings
         pd.set_option('display.max_colwidth', -1)
+        
         print("Welcome to Jeopardy!")
         self.total_points = 0
         self.total_questions = 25
@@ -24,6 +27,7 @@ class Game:
         
         #get random value for daily double question
         self.dailydouble = (random.randint(1,25) - 1)
+    
     
     
     #define function to get remaining categories in csv and use user input to choose one
